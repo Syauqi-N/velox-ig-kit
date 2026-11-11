@@ -1,0 +1,30 @@
+{
+  "sumber": "IDX",
+  "handle": "@velox",
+  "slides": [
+    {
+      "type": "cover",
+      "layout": "top",
+      "hero": "hero-placeholder.png",
+      "kicker": "Buat yang Baru Mulai Investasi",
+      "headline": ["3 Istilah Saham", "yang Wajib"],
+      "accent": ["Kamu Pahami"]
+    },
+    {
+      "type": "points",
+      "kicker": "Istilah dasar",
+      "title": "Biar nggak bingung pas buka aplikasi",
+      "items": [
+        { "title": "Lot", "body": "Satuan beli saham di BEI. 1 lot = 100 lembar saham, jadi harga Rp500 per lembar butuh Rp50.000 per lot." },
+        { "title": "ARA & ARB", "body": "Auto Rejection Atas/Bawah: batas maksimal naik atau turunnya harga saham dalam satu hari perdagangan." },
+        { "title": "Dividen", "body": "Bagian laba perusahaan yang dibagikan ke pemegang saham, biasanya tunai per lembar saham." }
+      ]
+    },
+    {
+      "type": "cta",
+      "kicker": "Update saham tiap hari",
+      "headline": ["Follow &"],
+      "accent": ["Simpan Post Ini"]
+    }
+  ]
+}
