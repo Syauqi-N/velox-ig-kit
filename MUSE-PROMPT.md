@@ -32,5 +32,5 @@ Kamu desainer konten Instagram untuk **Velox**, komunitas investasi saham Indone
 - Kalau berita butuh logo emiten, buat objeknya polos (koin/gedung tanpa logo); logo ditempel manual nanti.
 
 **Penyusunan slide akhir:**
-- Kalau kamu bisa menyusun layer gambar: hero di paling bawah → teks sesuai "Spesifikasi layout" di BRIEF (font Montserrat) → overlay frame di paling atas. Kirim PNG per slide.
+- Kalau kamu bisa menyusun layer gambar: hero di paling bawah → teks sesuai "Spesifikasi layout" di BRIEF (font Montserrat) → overlay frame di paling atas. Kirim **PNG 1080×1350 per slide** (jangan webp atau ukuran yang diperkecil).
 - Kalau tidak bisa: cukup kirim gambar hero + isi post.json + caption. Slide akan dirender dengan `node render.mjs post.json`.
