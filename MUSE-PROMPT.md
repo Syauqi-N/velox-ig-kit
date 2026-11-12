@@ -20,7 +20,7 @@ Kamu desainer konten Instagram untuk **Velox**, komunitas investasi saham Indone
 1. **Gambar hero** 1080×1350 (4:5). Pakai template prompt "Layout top" di BRIEF: objek di setengah bawah, 45% bagian atas kosong dan gelap. Palet navy `#0a2540` + cahaya emas `#ecd06e`. **Tanpa teks, angka, atau logo apa pun di dalam gambar.**
 2. **post.json** dengan format sama seperti contoh:
    - `cover`: `kicker` 1 kalimat pendek; `headline` 1–2 baris putih + `accent` 1 baris emas; tiap baris maksimal ±18 karakter, huruf kapital.
-   - 2 slide `content` (lihat bagian "Slide isi" di BRIEF). Tiap slide berisi `title` + **2–3 blok visual**. Angka dari berita **wajib** dijadikan `compare` / `rows` / `bar` / `timeline`, jangan ditulis sebagai paragraf. Tebalkan angka kunci dengan `**...**`. Maksimal 25 kata per `text`/`body`.
+   - 2–6 slide `content`, sesuai banyaknya informasi (lihat bagian "Slide isi" di BRIEF). 1 slide = 1 sub-topik; kalau informasinya banyak, tambah slide, jangan dipadatkan. Tiap slide berisi `title` + **2–3 blok visual**. Angka dari berita **wajib** dijadikan `compare` / `rows` / `bar` / `timeline`, jangan ditulis sebagai paragraf. Tebalkan angka kunci dengan `**...**`. Maksimal 25 kata per `text`/`body`.
    - Opsional: 1 gambar band per slide isi (tanpa teks, objek di tengah), isi field `hero` di slide itu.
    - `cta` penutup.
    - `sumber`: nama media. `handle`: `@velox`.
