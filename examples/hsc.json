@@ -1,0 +1,40 @@
+{
+  "sumber": "CNBC Indonesia",
+  "handle": "@velox",
+  "slides": [
+    {
+      "type": "content",
+      "chip": "Yang perlu kamu tahu",
+      "title": "Apa yang berubah dari **aturan HSC**?",
+      "blocks": [
+        { "text": "BEI menghapus batas **market cap Rp5 triliun** dan **price-impact ratio**. Penyaringan HSC kini berlaku untuk **semua saham tercatat**." },
+        { "label": "Jumlah saham HSC", "compare": { "from": "83", "to": "383", "note": "Tambahan 300 saham ini setara **6,16% nilai IHSG**." } },
+        { "card": { "title": "Apa itu saham **HSC**?", "body": "Saham yang **≥92,5%** kepemilikannya dikuasai **10 pihak atau kurang**. Tetap bisa diperdagangkan, tapi tidak dihitung di IHSG." } }
+      ]
+    },
+    {
+      "type": "content",
+      "chip": "IHSG, asing & MSCI",
+      "title": "Pasar hari ini & **jadwal penting**",
+      "blocks": [
+        { "label": "IHSG & dana asing", "rows": [
+          { "label": "IHSG dibuka", "value": "5.139,09", "change": "+0,26%" },
+          { "label": "IHSG ditutup", "value": "5.115,04", "change": "−0,21%" },
+          { "label": "Asing, sesi sebelumnya", "value": "Rp1,58 T", "change": "Net buy", "tone": "up" },
+          { "label": "Asing, sejak awal Okt", "value": "Rp25,18 T", "change": "Net sell", "tone": "down" }
+        ] },
+        { "label": "Awal perdagangan", "bar": [
+          { "label": "Naik", "value": 134, "tone": "up" },
+          { "label": "Turun", "value": 90, "tone": "down" },
+          { "label": "Stagnan", "value": 152 }
+        ] },
+        { "label": "Jadwal penting", "timeline": [
+          { "date": "Kamis, 12 Nov · 05.00 WIB", "text": "Hasil review **MSCI November 2026** diumumkan" },
+          { "date": "Kamis, 12 Nov", "text": "Daftar **300 saham HSC tambahan** diumumkan" },
+          { "date": "Jumat, 13 Nov", "text": "Saham tambahan **keluar dari hitungan IHSG**" },
+          { "date": "Selasa, 1 Des", "text": "Komposisi baru **MSCI** mulai berlaku" }
+        ] }
+      ]
+    }
+  ]
+}

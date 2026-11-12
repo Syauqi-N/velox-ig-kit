@@ -32,8 +32,8 @@ Kalau Muse yang menyusun gambar akhirnya sendiri, pakai `out/frame/01.png`. File
   "slides": [
     { "type": "cover", "layout": "top", "hero": "hero.png",
       "kicker": "Subjudul tipis", "headline": ["BARIS PUTIH", "BARIS PUTIH"], "accent": ["BARIS EMAS"] },
-    { "type": "points", "kicker": "Label emas kecil", "title": "Judul slide",
-      "items": [{ "title": "Poin", "body": "Penjelasan 1–2 kalimat." }] },
+    { "type": "content", "chip": "Label kecil", "title": "Judul slide **kata emas**", "hero": "band.png",
+      "blocks": [ { "text": "..." }, { "label": "Judul blok", "compare": { "from": "83", "to": "383" } } ] },
     { "type": "cta", "kicker": "Update saham tiap hari", "headline": ["FOLLOW &"], "accent": ["SIMPAN POST INI"] }
   ]
 }
@@ -41,7 +41,25 @@ Kalau Muse yang menyusun gambar akhirnya sendiri, pakai `out/frame/01.png`. File
 
 - `layout: "top"`: teks di atas, objek hero di bagian bawah. `layout: "bottom"`: kebalikannya.
 - Judul idealnya 2–3 baris dengan ±18 karakter per baris. Ukuran huruf mengecil otomatis. Kalau tetap kepanjangan, kalimatnya turun ke baris baru (tidak terpotong).
-- `points` paling enak berisi 3–4 item. `sumber` muncul di cover dan slide isi.
+- `sumber` muncul di cover dan slide isi.
+
+### Slide isi (`content`)
+
+Slide isi **jangan berupa tembok teks**. Ubah angka di berita menjadi visual. Satu slide berisi `chip` (opsional), `title`, lalu **2–3 blok** dari daftar di bawah. Tulis `**teks**` untuk menebalkan kata dengan warna emas. Contoh lengkap ada di `examples/hsc.json` (hasilnya di `out/hsc/`).
+
+| Blok | Pakai untuk | Bentuk |
+| --- | --- | --- |
+| `text` | 1–2 kalimat pengantar | `"text": "BEI menghapus batas **Rp5 triliun**."` |
+| `compare` | angka sebelum → sesudah (bar otomatis kalau naik) | `"compare": { "from": "83", "to": "383", "fromLabel": "Sebelumnya", "toLabel": "Sekarang", "note": "..." }` |
+| `rows` | tabel angka + perubahan (+ hijau, − merah) | `"rows": [{ "label": "IHSG dibuka", "value": "5.139,09", "change": "+0,26%" }]` (opsional `"tone": "up"/"down"`) |
+| `bar` | komposisi/perbandingan (naik/turun, porsi kepemilikan) | `"bar": [{ "label": "Naik", "value": 134, "tone": "up" }, { "label": "Stagnan", "value": 152 }]` |
+| `timeline` | jadwal atau kronologi | `"timeline": [{ "date": "Jumat, 13 Nov", "text": "..." }]` |
+| `card` | definisi/penjelasan singkat | `"card": { "title": "Apa itu HSC?", "body": "..." }` |
+| `points` | 3 poin bernomor | `"points": [{ "title": "...", "body": "..." }]` |
+
+Semua blok bisa diberi `"label"` (judul kecil emas di atasnya). Isi slide mengecil otomatis supaya muat. Kalau tetap kepanjangan, muncul **pita merah "KONTEN KEPANJANGAN"** di slide, tandanya teks atau bloknya harus dikurangi.
+
+`hero` di slide isi bersifat opsional. Gambarnya tampil sebagai band di bagian atas slide (tinggi 640px, memudar ke bawah), dan isi slide turun ke bawah gambar. Pakai gambar tanpa teks dengan objek di tengah. Kalau ada gambar, pakai maksimal 2 blok.
 
 ## Warna (diambil dari logo shield Velox)
 

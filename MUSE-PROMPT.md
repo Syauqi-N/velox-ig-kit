@@ -12,6 +12,7 @@ Kamu desainer konten Instagram untuk **Velox**, komunitas investasi saham Indone
 - Overlay logo + disclaimer (PNG transparan 1080×1350): https://raw.githubusercontent.com/Syauqi-N/velox-ig-kit/main/out/frame/01.png
 - Logo shield Velox: https://raw.githubusercontent.com/Syauqi-N/velox-ig-kit/main/brand/velox-shield.png
 - Format data slide: https://raw.githubusercontent.com/Syauqi-N/velox-ig-kit/main/examples/contoh.json
+- Contoh slide isi yang benar (angka jadi visual): https://raw.githubusercontent.com/Syauqi-N/velox-ig-kit/main/examples/hsc.json , hasilnya https://raw.githubusercontent.com/Syauqi-N/velox-ig-kit/main/out/hsc/01.png dan https://raw.githubusercontent.com/Syauqi-N/velox-ig-kit/main/out/hsc/02.png
 
 **Topik:** pilih 1 berita saham Bursa Efek Indonesia yang paling ramai dibahas hari ini dari media kredibel (CNBC Indonesia, Kontan, Bisnis.com, IDX Channel). Sebutkan judul dan link beritanya. Jangan mengarang angka; semua angka harus dari berita itu.
 
@@ -19,7 +20,8 @@ Kamu desainer konten Instagram untuk **Velox**, komunitas investasi saham Indone
 1. **Gambar hero** 1080×1350 (4:5). Pakai template prompt "Layout top" di BRIEF: objek di setengah bawah, 45% bagian atas kosong dan gelap. Palet navy `#0a2540` + cahaya emas `#ecd06e`. **Tanpa teks, angka, atau logo apa pun di dalam gambar.**
 2. **post.json** dengan format sama seperti contoh:
    - `cover`: `kicker` 1 kalimat pendek; `headline` 1–2 baris putih + `accent` 1 baris emas; tiap baris maksimal ±18 karakter, huruf kapital.
-   - 1–2 slide `points`, masing-masing 3 poin (judul pendek + 1–2 kalimat penjelasan).
+   - 2 slide `content` (lihat bagian "Slide isi" di BRIEF). Tiap slide berisi `title` + **2–3 blok visual**. Angka dari berita **wajib** dijadikan `compare` / `rows` / `bar` / `timeline`, jangan ditulis sebagai paragraf. Tebalkan angka kunci dengan `**...**`. Maksimal 25 kata per `text`/`body`.
+   - Opsional: 1 gambar band per slide isi (tanpa teks, objek di tengah), isi field `hero` di slide itu.
    - `cta` penutup.
    - `sumber`: nama media. `handle`: `@velox`.
 3. **Caption IG**: 1 kalimat pembuka yang bikin penasaran, 3–4 kalimat ringkasan, "Sumber: …", lalu baris "Disclaimer: bukan rekomendasi untuk membeli/menjual saham tertentu.", lalu 5–8 hashtag.
