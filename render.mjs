@@ -2,7 +2,7 @@
 // Render a Velox IG carousel (1080x1350 PNG per slide) from a post JSON.
 // Usage: node render.mjs examples/contoh.json
 // Output: out/<nama-json>/01.png, 02.png, ...
-import { readFileSync, writeFileSync, mkdirSync, mkdtempSync, rmSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, mkdtempSync, rmSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { dirname, resolve, basename, join } from "node:path";
 import { pathToFileURL, fileURLToPath } from "node:url";
@@ -21,6 +21,39 @@ const rich = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
 const num = (s) => parseFloat(String(s).replace(/[^\d,.-]/g, "").replace(/\./g, "").replace(",", "."));
 const fmt = (n) => n.toLocaleString("id-ID", { maximumFractionDigits: 2 });
 const tone = (r) => r.tone ?? (/^\s*[-−]/.test(r.change ?? "") ? "down" : /^\s*\+/.test(r.change ?? "") ? "up" : "");
+
+// Issuer logos: logos/<KODE>.(png|jpg|jpeg|webp|svg) wins; otherwise fetched once from Stockbit's public CDN
+// (160px, round) into logos/.cache/. Missing logo -> coin with the ticker text.
+const LOGO_DIR = join(KIT, "logos"), LOGO_CACHE = join(LOGO_DIR, ".cache");
+const LOGO_URL = (t) => `https://assets.stockbit.com/logos/companies/${t}.png`;
+const logos = new Map();
+const tk = (t) => {
+  const code = String(t ?? "").trim().toUpperCase().replace(/^\$/, "");
+  if (!/^[A-Z0-9]{2,6}$/.test(code)) throw new Error(`Kode saham tidak valid: "${t}"`);
+  return code;
+};
+async function loadLogo(t) {
+  for (const ext of ["png", "jpg", "jpeg", "webp", "svg"]) {
+    if (existsSync(join(LOGO_DIR, `${t}.${ext}`))) return pathToFileURL(join(LOGO_DIR, `${t}.${ext}`)).href;
+  }
+  const cached = join(LOGO_CACHE, `${t}.png`);
+  if (!existsSync(cached)) {
+    try {
+      const res = await fetch(LOGO_URL(t), { signal: AbortSignal.timeout(10000) });
+      if (!res.ok || !res.headers.get("content-type")?.startsWith("image/")) throw new Error(`HTTP ${res.status}`);
+      mkdirSync(LOGO_CACHE, { recursive: true });
+      writeFileSync(cached, Buffer.from(await res.arrayBuffer()));
+    } catch (e) {
+      console.warn(`! Logo ${t} tidak ketemu (${e.message}), dipakai koin teks. Taruh file manual di logos/${t}.png`);
+      return null;
+    }
+  }
+  return pathToFileURL(cached).href;
+}
+const coin = (t, size) => {
+  const src = logos.get(tk(t));
+  return `<div class="coin" style="--s:${size}px">${src ? `<img src="${src}">` : `<span>${esc(tk(t))}</span>`}</div>`;
+};
 
 // Warna diambil dari logo shield Velox: navy #0a2540 + emas #ecd06e.
 const CSS = `
@@ -95,7 +128,7 @@ header .src b { color: #fff; font-weight: 700; }
 .rows { padding-top: 8px; padding-bottom: 8px; }
 .row { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 18px; padding: 18px 0; }
 .row + .row { border-top: 1px solid rgba(255,255,255,.09); }
-.row span { font-size: 27px; color: rgba(255,255,255,.8); }
+.row .rl { display: flex; align-items: center; gap: 16px; font-size: 27px; color: rgba(255,255,255,.8); }
 .row > b { font-size: 33px; font-weight: 800; }
 .row em { font-style: normal; font-size: 22px; font-weight: 800; padding: 6px 14px; border-radius: 999px; min-width: 120px; text-align: center;
   color: #cbd5e1; background: rgba(255,255,255,.1); }
@@ -128,6 +161,29 @@ header .src b { color: #fff; font-weight: 700; }
   font-weight: 800; color: #0a2540; background: linear-gradient(180deg, #f6e08a, #c9a24a); }
 .points h3 { font-size: 33px; font-weight: 700; margin-bottom: 6px; }
 .points p { font-size: 26px; line-height: 1.42; color: rgba(255,255,255,.84); }
+/* Gold-rimmed coin with the issuer logo as its face. */
+.coin { position: relative; width: var(--s); height: var(--s); flex: none; border-radius: 50%; padding: calc(var(--s) * .055);
+  background: linear-gradient(145deg, #fff3b0 0%, #d4b257 35%, #7a5a1c 70%, #e9cd6b 100%);
+  box-shadow: 0 calc(var(--s) * .08) calc(var(--s) * .2) rgba(0,0,0,.6), 0 0 calc(var(--s) * .25) rgba(233,205,107,.28); }
+.coin img, .coin span { width: 100%; height: 100%; border-radius: 50%; display: grid; place-items: center; object-fit: cover; }
+.coin span { background: radial-gradient(circle at 40% 35%, #143a63, #0a2540 65%); color: #ecd06e; font-weight: 800;
+  font-size: calc(var(--s) * .24); letter-spacing: -.02em; }
+.coin::after { content: ""; position: absolute; inset: calc(var(--s) * .055); border-radius: 50%; box-shadow: inset 0 0 0 2px rgba(0,0,0,.25);
+  background: radial-gradient(circle at 30% 22%, rgba(255,255,255,.42), rgba(255,255,255,0) 42%), radial-gradient(circle at 70% 88%, rgba(0,0,0,.3), transparent 50%); }
+.stocks { display: grid; gap: 30px 14px; justify-items: center; }
+.stock { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+.stock .tkr { font-size: 25px; font-weight: 800; color: #0a2540; padding: 3px 14px; border-radius: 8px; margin-top: 6px;
+  background: linear-gradient(180deg, #f6e08a, #d4b257); }
+.stock small { font-size: 21px; line-height: 1.3; color: rgba(255,255,255,.75); }
+.stock em, .coinrow em { font-style: normal; font-size: 22px; font-weight: 800; padding: 5px 14px; border-radius: 999px; color: #cbd5e1;
+  background: rgba(255,255,255,.1); }
+.coinrow { position: absolute; left: 30px; right: 30px; display: flex; justify-content: center; align-items: center; }
+.top .coinrow { top: 560px; bottom: 120px; }
+.bottom .coinrow { top: 140px; bottom: 560px; }
+.coinrow .coin { transform: perspective(900px) rotateY(-14deg);
+  box-shadow: calc(var(--s) * .05) calc(var(--s) * .015) 0 #6e4f17, 0 calc(var(--s) * .1) calc(var(--s) * .25) rgba(0,0,0,.65), 0 0 calc(var(--s) * .3) rgba(233,205,107,.3); }
+.coinrow em { position: relative; margin-top: -26px; font-size: 30px; padding: 6px 18px; backdrop-filter: blur(6px); }
+.coinrow .up, .coinrow .down { box-shadow: 0 0 0 2px currentColor; background: rgba(3,8,15,.85) !important; }
 .overflow { position: absolute; left: 0; right: 0; top: 0; padding: 14px; z-index: 9; text-align: center;
   font-size: 26px; font-weight: 800; background: #dc2626; }
 
@@ -173,7 +229,13 @@ const BLOCKS = {
       ${b > a && a > 0 ? `<div class="track"><span style="width:${(a / b) * 100}%">${esc(c.from)}</span><span class="add">+${fmt(b - a)}</span></div>` : ""}
       ${c.note ? `<p>${rich(c.note)}</p>` : ""}</div>`;
   },
-  rows: (rows) => `<div class="panel rows">${rows.map((r) => `<div class="row"><span>${rich(r.label)}</span><b>${esc(r.value)}</b>
+  stocks: (list) => {
+    const n = list.length;
+    const [cols, size] = n <= 4 ? [n, [0, 210, 190, 190, 170][n]] : n <= 6 ? [3, 160] : n <= 8 ? [4, 140] : [5, 120];
+    return `<div class="stocks" style="grid-template-columns:repeat(${cols},1fr)">${list.map((s) => `<div class="stock">${coin(s.ticker, size)}
+      <b class="tkr">${esc(tk(s.ticker))}</b>${s.name ? `<small>${esc(s.name)}</small>` : ""}${s.change ? `<em class="${tone(s)}">${esc(s.change)}</em>` : ""}</div>`).join("")}</div>`;
+  },
+  rows: (rows) => `<div class="panel rows">${rows.map((r) => `<div class="row"><span class="rl">${r.ticker ? coin(r.ticker, 56) : ""}${rich(r.label)}</span><b>${esc(r.value)}</b>
     ${r.change ? `<em class="${tone(r)}">${esc(r.change)}</em>` : ""}</div>`).join("")}</div>`,
   bar: (segs) => `<div class="panel"><div class="seg">${segs.map((s) => `<span class="${s.tone ?? ""}" style="flex:${s.value}"></span>`).join("")}</div>
     <div class="legend">${segs.map((s) => `<div><i class="${s.tone ?? ""}"></i>${esc(s.label)}<b>${fmt(s.value)}</b></div>`).join("")}</div></div>`,
@@ -186,9 +248,16 @@ const block = (b, i) => {
   return `<section>${b.label ? `<div class="label">${esc(b.label)}</div>` : ""}${BLOCKS[key](b[key])}</section>`;
 };
 
+// Cover: a row of slightly overlapping, tilted coins, with an optional change pill under each.
+const coinRow = (list) => {
+  const size = [0, 380, 300, 250, 215, 185][Math.min(list.length, 5)] || 160;
+  return `<div class="coinrow">${list.map((s, i) => `<div class="stock" style="margin-left:${i ? -size * 0.1 : 0}px;z-index:${list.length - i}">
+    ${coin(s.ticker, size)}${s.change ? `<em class="${tone(s)}">${esc(s.change)}</em>` : ""}</div>`).join("")}</div>`;
+};
+
 const SLIDES = {
   cover: (s, post, base) => `<body class="${s.layout === "bottom" ? "bottom" : "top"}">
-    ${s.hero ? `<img class="hero" src="${img(base, s.hero)}">` : ""}<div class="shade"></div>
+    ${s.hero ? `<img class="hero" src="${img(base, s.hero)}">` : ""}<div class="shade"></div>${s.stocks ? coinRow(s.stocks) : ""}
     ${header(post)}<div class="text"><div class="kicker">${esc(s.kicker)}</div>${headline(s, 104)}</div>${disclaimer}</body>`,
   content: (s, post, base) => `<body class="content${s.hero ? " has-hero" : ""}">
     ${s.hero ? `<img class="band" src="${img(base, s.hero)}"><div class="bandshade"></div>` : ""}${header(post)}
@@ -227,6 +296,10 @@ const post = JSON.parse(readFileSync(jsonPath, "utf8"));
 const base = dirname(resolve(jsonPath));
 const outDir = join(KIT, "out", basename(jsonPath, ".json"));
 mkdirSync(outDir, { recursive: true });
+
+const tickers = new Set();
+JSON.stringify(post, (k, v) => (k === "ticker" && tickers.add(tk(v)), v));
+await Promise.all([...tickers].map(async (t) => logos.set(t, await loadLogo(t))));
 
 post.slides.forEach((s, i) => {
   const build = SLIDES[s.type];

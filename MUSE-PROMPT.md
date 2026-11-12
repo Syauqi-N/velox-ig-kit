@@ -29,7 +29,8 @@ Kamu desainer konten Instagram untuk **Velox**, komunitas investasi saham Indone
 **Aturan:**
 - Bahasa Indonesia yang santai tapi informatif. Jangan ada ajakan beli/jual atau target harga.
 - Jangan pakai warna neon pink atau neon biru.
-- Kalau berita butuh logo emiten, buat objeknya polos (koin/gedung tanpa logo); logo ditempel manual nanti.
+- **Logo saham wajib ada**: setiap emiten yang disebut di berita tulis kodenya sebagai `ticker`. Di cover isi `stocks` (maks 5 kode, plus `change` kalau ada di berita). Di slide isi pakai blok `stocks`, atau `ticker` di baris `rows`. Logo dipasang otomatis oleh template; lihat bagian "Logo saham" di BRIEF dan contoh https://raw.githubusercontent.com/Syauqi-N/velox-ig-kit/main/out/saham-tambang/01.png
+- Jangan menggambar logo emiten di gambar hero. Kalau cover memakai `stocks`, hero cukup berupa latar/scene (panggung gelap, lantai emas berkilau) tanpa objek utama di tengah.
 
 **Penyusunan slide akhir:**
 - Kalau kamu bisa menyusun layer gambar: hero di paling bawah → teks sesuai "Spesifikasi layout" di BRIEF (font Montserrat) → overlay frame di paling atas. Kirim **PNG 1080×1350 per slide** (jangan webp atau ukuran yang diperkecil).

@@ -56,8 +56,18 @@ Slide isi **jangan berupa tembok teks**. Ubah angka di berita menjadi visual. Sa
 | `timeline` | jadwal atau kronologi | `"timeline": [{ "date": "Jumat, 13 Nov", "text": "..." }]` |
 | `card` | definisi/penjelasan singkat | `"card": { "title": "Apa itu HSC?", "body": "..." }` |
 | `points` | 3 poin bernomor | `"points": [{ "title": "...", "body": "..." }]` |
+| `stocks` | daftar saham dengan **logo emiten** (koin emas) | `"stocks": [{ "ticker": "ANTM", "name": "Aneka Tambang", "change": "+2,1%" }]` (`name` dan `change` opsional) |
 
 Semua blok bisa diberi `"label"` (judul kecil emas di atasnya). Isi slide mengecil otomatis supaya muat. Kalau tetap kepanjangan, muncul **pita merah "KONTEN KEPANJANGAN"** di slide, tandanya teks atau bloknya harus dikurangi.
+
+### Logo saham (emiten)
+
+Logo emiten **dipasang otomatis oleh template**, cukup tulis kode sahamnya di `ticker` (boleh pakai `$` di depan). Ada tiga tempat:
+- **Cover**: `"stocks": [{ "ticker": "BBRI", "change": "+2,1%" }]` akan menampilkan deretan koin emas 3D di area hero, maksimal 5 koin. Hero untuk cover seperti ini cukup **latar/scene saja tanpa objek utama**.
+- **Slide isi**: blok `stocks` menampilkan grid koin + kode + nama + pil perubahan.
+- **Tabel**: tambahkan `"ticker"` di baris `rows` supaya muncul ikon logo kecil.
+
+Sumber logo: CDN publik Stockbit (160px), disimpan di `logos/.cache/`. Untuk logo resmi yang lebih tajam, taruh file `logos/<KODE>.png` dan file itu otomatis dipakai duluan. Kalau logo tidak ketemu, yang muncul koin bertuliskan kodenya, plus peringatan di terminal. Contoh lengkap ada di `examples/saham-tambang.json` (hasilnya di `out/saham-tambang/`).
 
 `hero` di slide isi bersifat opsional. Gambarnya tampil sebagai band di bagian atas slide (tinggi 640px, memudar ke bawah), dan isi slide turun ke bawah gambar. Pakai gambar tanpa teks dengan objek di tengah. Kalau ada gambar, pakai maksimal 2 blok.
 
@@ -101,4 +111,4 @@ NO text, NO letters, NO numbers, NO logos, NO watermark.
 `subject placed in the UPPER HALF of the frame, lower 45% is empty dark negative space`.
 
 Palet hero: dominan navy dan hitam, dengan cahaya emas. Hindari neon pink/biru dan latar putih supaya feed tetap konsisten.
-Kalau butuh logo emiten di koin, minta Muse membuat koin **polos**, lalu tempel logo resminya secara manual. Model gambar hampir selalu merusak logo.
+Jangan minta model gambar menggambar logo emiten karena hasilnya hampir selalu rusak. Logo dipasang template lewat `stocks`/`ticker`. Kalau cover memakai `stocks`, ganti `[SUBJEK]` dengan scene saja, misalnya `an empty stage with a glowing gold floor and soft spotlights`.

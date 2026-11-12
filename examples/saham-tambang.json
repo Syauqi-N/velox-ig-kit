@@ -1,0 +1,46 @@
+{
+  "handle": "@velox",
+  "slides": [
+    {
+      "type": "cover",
+      "layout": "top",
+      "hero": "scene-placeholder.png",
+      "kicker": "Kenalan Sama Emiten",
+      "headline": ["Saham Tambang"],
+      "accent": ["di Bursa Kita"],
+      "stocks": [{ "ticker": "ANTM" }, { "ticker": "INCO" }, { "ticker": "MDKA" }, { "ticker": "AMMN" }]
+    },
+    {
+      "type": "content",
+      "chip": "Logam & mineral",
+      "title": "Penggeraknya: harga **nikel, emas, tembaga & timah**",
+      "blocks": [
+        { "stocks": [
+          { "ticker": "ANTM", "name": "Aneka Tambang" },
+          { "ticker": "INCO", "name": "Vale Indonesia" },
+          { "ticker": "MDKA", "name": "Merdeka Copper Gold" },
+          { "ticker": "MBMA", "name": "Merdeka Battery Materials" },
+          { "ticker": "AMMN", "name": "Amman Mineral Internasional" },
+          { "ticker": "TINS", "name": "Timah" }
+        ] },
+        { "text": "Kinerjanya banyak ikut **harga komoditas global**, jadi cek tren harga logamnya dulu sebelum lihat sahamnya." }
+      ]
+    },
+    {
+      "type": "content",
+      "chip": "Energi",
+      "title": "Batu bara & **minyak-gas**",
+      "blocks": [
+        { "label": "Batu bara", "stocks": [
+          { "ticker": "AADI", "name": "Adaro Andalan Indonesia" },
+          { "ticker": "PTBA", "name": "Bukit Asam" },
+          { "ticker": "BUMI", "name": "Bumi Resources" }
+        ] },
+        { "label": "Minyak & gas", "stocks": [
+          { "ticker": "MEDC", "name": "Medco Energi Internasional" },
+          { "ticker": "ENRG", "name": "Energi Mega Persada" }
+        ] }
+      ]
+    }
+  ]
+}
